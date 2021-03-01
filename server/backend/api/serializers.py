@@ -4,7 +4,7 @@ from .models import MyUser
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True,validators=[UniqueValidator(queryset=MyUser.objects.all())])
-    password = serializers.CharField(min_length=8)
+    password = serializers.CharField(min_length=8, write_only=True)
     name = serializers.CharField(required=False)
     lastname = serializers.CharField(required=False)
     dob = serializers.DateField(required=False)
@@ -20,6 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
         password = validated_data.pop('password',None)
         instance = self.Meta.model(**validated_data)
         if password is not None:
+            print('\n\nahhh\n\n')
             instance.set_password(password)
         instance.save()
         return instance

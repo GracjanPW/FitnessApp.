@@ -16,7 +16,8 @@ class MyUser(AbstractBaseUser,PermissionsMixin):
     dob = models.DateField(_('Date of birth'), null=True, blank=True)
     gender =  models.CharField(choices=(('m','Male'),('f','Female'),('o','Other')), null=True, blank=True, max_length=6)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    # TODO change is_active default to False and implement email confirmation for opening an account
+    is_active = models.BooleanField(default=True)
     first_time_setup = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now, editable=False)
 

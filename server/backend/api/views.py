@@ -14,6 +14,7 @@ from rest_framework.views import APIView
 # Create your views here.
 class UserCreateView(APIView):
     permission_classes  = (permissions.AllowAny,)
+    authentication_classes = ()
 
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)
@@ -23,3 +24,4 @@ class UserCreateView(APIView):
                 json = serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
