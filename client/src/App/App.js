@@ -4,6 +4,7 @@ import {
   makeStyles, 
   createMuiTheme, 
   ThemeProvider,
+
 } from '@material-ui/core';
 import {
   blue,
@@ -20,8 +21,8 @@ import Navbar from '../components/Navbar';
 import LoginPage from '../components/LoginPage';
 import HomePage from '../components/HomePage'
 import RegisterPage from '../components/RegisterPage';
-import DashboardPage from '../components/DashboardPage';
 import LogoutPage from '../components/LogoutPage';
+import UserPage from '../components/UserPage'
 import apiInstance from '../apiRequests';
 
 const theme = createMuiTheme({
@@ -60,9 +61,8 @@ export default function App() {
       height:null,
       weights:null,
     },
-    goals:{
-
-    },
+    goals:[
+    ],
     workoutHistory:{
 
     },
@@ -73,6 +73,7 @@ export default function App() {
       
     }
   })
+
   const loginChange = value =>{
     setData({...data, loggedIn: value})
   }
@@ -113,8 +114,8 @@ export default function App() {
       <Router>
         <Navbar key="navbar" loggedIn={data.loggedIn}/>
         <Switch>
-          <Route path='/user/'>
-            { !data.loggedIn ? <Redirect to="/login/"/>: <DashboardPage/>}
+          <Route path="/user/">
+            { !data.loggedIn ? <Redirect to="/login/"/>:<UserPage data={data} setData={setData}/>}
           </Route>
           <Route path="/login/" >
             { data.loggedIn ? <Redirect to="/user/"/>: <LoginPage statusChanger={loginChange}/>}

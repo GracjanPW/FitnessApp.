@@ -27,3 +27,11 @@ class MyUser(AbstractBaseUser,PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+class UserGoals(models.Model):
+    user = models.OneToOneField(MyUser,on_delete=models.CASCADE)
+    goals = ArrayField(models.JSONField(default=dict),default=list,null=True,blank=True)
+    goalsId = models.IntegerField(default=0,editable=False)
+
+    def __str__(self):
+        return str(self.user)

@@ -11,7 +11,7 @@ export default function LogoutPage(props) {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     alert('you\'ve been logged out');
-    history.push('/login')
+    history.push('/login/');
   }
 
   React.useEffect(() => {

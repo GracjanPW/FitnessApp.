@@ -102,7 +102,12 @@ export default function LoginPage(props) {
             />
           </div>
 
-          <Button className={classes.button} type="submit" variant="contained" color="secondary">Login</Button>
+          <Button 
+            className={classes.button} 
+            type="submit" 
+            variant="contained" 
+            color="secondary"
+          >Login</Button>
         </form>
       </Paper>
 

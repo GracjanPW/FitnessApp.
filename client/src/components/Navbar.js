@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     position:'absolute',
     width:'100%',
+    zIndex: 1201,
+  },
+  appBar:{
+    height:'4rem',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -34,7 +38,7 @@ export default function Navbar(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar className={classes.appBar} position="static">
         <Toolbar>
 					<div className={classes.title}>
 						<Button onClick={() => setLoc("/")} component={Link} to="/" color="inherit">
@@ -46,12 +50,7 @@ export default function Navbar(props) {
           {
             props.loggedIn 
             ? 
-            <Button
-              onClick={() => setLoc("/logout")} 
-              color="inherit" 
-              component={Link} 
-              to="/logout"
-            >Logout</Button>
+            <h3>Hello human</h3>
             :
             [
               (loc == "/login" ? <></> :
