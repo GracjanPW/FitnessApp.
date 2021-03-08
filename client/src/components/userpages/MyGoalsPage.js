@@ -120,19 +120,11 @@ export default function MyGoalsPage(props) {
   }
 
   React.useEffect(() =>{
-    const fetchGoals = async () =>{
-      const response = await apiInstance.get('/user/goals/')
-      props.setData((prevState) => ({
-        ...prevState,
-        goals: response.data.goals
-      }))
-    }
-    fetchGoals()
-    
+    props.loadGoals()
   },[])
 
   return (
-    <div className={classes.root}>
+    <section className={classes.root}>
       <Typography variant="h3" component="h2">
         My Goals
       </Typography>
@@ -205,6 +197,6 @@ export default function MyGoalsPage(props) {
         </form>
         
       </Modal>
-    </div>
+    </section>
   )
 }

@@ -168,7 +168,7 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
-
+# TODO set up email authentication
 # EMAIL_USE_TLS=True
 # EMAIL_HOST='smtp.gmail.com'
 # EMAIL_PORT=587

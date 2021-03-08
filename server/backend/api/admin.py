@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import MyUser
+from .models import MyUser, Exercise,UserGoals
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 class CustomUserAdmin(UserAdmin):
@@ -25,3 +25,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(MyUser, CustomUserAdmin)
+# TODO remove 
+admin.site.register(UserGoals)
+# TODO only show default exercises in admin panel
+admin.site.register(Exercise)

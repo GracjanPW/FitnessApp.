@@ -44,8 +44,7 @@ export default function Goal(props) {
           }}
         />
         <IconButton 
-          type="button"
-          onClick={(e)=>{
+          onClick={()=>{
             props.delete(props.goal.id)}
           } 
           aria-label="delete"

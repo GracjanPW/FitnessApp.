@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from .models import MyUser, UserGoals
+from .models import MyUser, UserGoals, Exercise
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True,validators=[UniqueValidator(queryset=MyUser.objects.all())])
@@ -68,3 +68,19 @@ class UserGoalsSerializer(serializers.ModelSerializer):
             instance.goalsId +=1
             instance.save()
             return instance.goals[-1]
+        
+class ExerciseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exercise
+        fields = '__all__'
+
+    def create(self, validated_data):
+        return self.Meta.model(**validated_data)
+
+    def update(self,instance,validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.instructions = validated_data.get('instructions',instance.instructions)
+        instance.desc = validated_data.get('desc',instance.desc)
+        instance.save()
+        return instance
+    

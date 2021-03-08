@@ -105,6 +105,7 @@ export default function Sidebar(props) {
               </ListItem>
             ))}
           </List>
+          <Divider/>
           <div className={classes.drawerBottom}>
           <Divider/>
           <List>

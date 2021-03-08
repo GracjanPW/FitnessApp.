@@ -35,3 +35,9 @@ class UserGoals(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+class Exercise(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    name = models.CharField(max_length=40)
+    desc = models.TextField(blank=True, null=True)
+    instructions = ArrayField(models.CharField(max_length=100),default=list,null=True, blank=True)

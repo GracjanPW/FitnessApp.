@@ -24,6 +24,7 @@ import RegisterPage from '../components/RegisterPage';
 import LogoutPage from '../components/LogoutPage';
 import UserPage from '../components/UserPage'
 import apiInstance from '../apiRequests';
+import { FormatListBulletedTwoTone } from '@material-ui/icons';
 
 const theme = createMuiTheme({
   palette: {
@@ -49,34 +50,7 @@ const useStyles = makeStyles({
 
 export default function App() {
   const classes = useStyles();
-  const [data, setData] = React.useState({
-    loggedIn: false,
-    user:{
-      name:"",
-      lastname:"",
-      dob:"",
-      gender:"",
-    },
-    userData:{
-      height:null,
-      weights:null,
-    },
-    goals:[
-    ],
-    workoutHistory:{
-
-    },
-    workouts:{
-
-    },
-    exercises:{
-      
-    }
-  })
-
-  const loginChange = value =>{
-    setData({...data, loggedIn: value})
-  }
+  const [loggedIn, setLoginStatus] = React.useState(false)
 
   const getUser = React.useCallback(
     async (e) => {
@@ -97,7 +71,7 @@ export default function App() {
       apiInstance.defaults.headers['Authorization'] = "JWT " + response.data.access;
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
-      setData({...data,loggedIn:true})
+      setLoginStatus(true)
       return true;
     } catch (e){
       throw(e)
@@ -112,25 +86,25 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Navbar key="navbar" loggedIn={data.loggedIn}/>
+        <Navbar key="navbar" loggedIn={loggedIn}/>
         <Switch>
           <Route path="/user/">
-            { !data.loggedIn ? <Redirect to="/login/"/>:<UserPage data={data} setData={setData}/>}
+            { !loggedIn ? <Redirect to="/login/"/>:<UserPage/>}
           </Route>
           <Route path="/login/" >
-            { data.loggedIn ? <Redirect to="/user/"/>: <LoginPage statusChanger={loginChange}/>}
+            { loggedIn ? <Redirect to="/user/"/>: <LoginPage statusChanger={setLoginStatus}/>}
           </Route>
           <Route path="/register/">
-            { data.loggedIn ?<Redirect to="/user/"/>: <RegisterPage/>}
+            { loggedIn ?<Redirect to="/user/"/>: <RegisterPage/>}
           </Route>
           <Route path="/logout/">
-            <LogoutPage statusChanger={loginChange}/>
+            <LogoutPage statusChanger={setLoginStatus}/>
           </Route>
           <Route path="/profile_setup/">
             
           </Route>
           <Route path="/">
-            { data.loggedIn ? <Redirect to="/user/"/>:<HomePage/> }
+            { loggedIn ? <Redirect to="/user/"/>:<HomePage/> }
           </Route>
           
         </Switch>

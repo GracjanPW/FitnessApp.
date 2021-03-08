@@ -11,6 +11,7 @@ import WorkoutHistoryPage from './userpages/WorkoutHistoryPage';
 import SettingsPage from './userpages/SettingsPage';
 import RoutinePage from './userpages/RoutinePage'
 import { Route } from 'react-router';
+import apiInstance from '../apiRequests'
 
 const useStyles = makeStyles((theme) =>({
   root:{
@@ -20,7 +21,8 @@ const useStyles = makeStyles((theme) =>({
     '@media screen and (min-width: 700px)': {
       paddingLeft:'200px',
     }
-  }
+  },
+  
 }))
 
 const urls = [
@@ -39,14 +41,71 @@ const urls = [
 
 export default function UserPage(props) {
   const classes = useStyles()
+  const [data, setData] = React.useState({
+    user:{
+      name:"",
+      lastname:"",
+      dob:"",
+      gender:"",
+    },
+    userData:{
+      height:null,
+      weights:null,
+    },
+    goals:[
+    ],
+    workoutHistory:{
+
+    },
+    workouts:{
+
+    },
+    exercises:[
+    ]
+  })
+  const [apiLoader, setApiLoader] = React.useState('')
+
+  const fetchGoals = async () =>{
+    const response = await apiInstance.get('/user/goals/')
+    setData((prevState) => ({
+      ...prevState,
+      goals: response.data.goals
+    }))
+  }
+  const fetchExercises = async ()=>{
+    const response = await apiInstance.get('/user/exercises/')
+    console.log(response.data)
+    setData((prevState)=>({
+      ...prevState,
+      exercises:[...response.data]
+    }))
+  }
   
-  
+  React.useEffect(()=>{
+    switch(apiLoader){
+      case 'goals':
+        fetchGoals()
+        break;
+      case 'exercises':
+        fetchExercises()
+        break;
+    }
+  },[apiLoader])
+
   const pages = [
     (<DashboardPage/>),
     (<RoutinePage/>),
     (<MyWorkoutsPage/>),
-    (<MyGoalsPage data={props.data.goals} setData={props.setData}/>),
-    (<MyExercisesPage/>),
+    (<MyGoalsPage 
+      data={data.goals} 
+      setData={setData} 
+      loadGoals={()=>setApiLoader('goals')}
+    />),
+    (<MyExercisesPage 
+      data={data.exercises} 
+      setData={setData}
+      loadExercises={()=>setApiLoader('exercises')}  
+    />),
     (<WorkoutHistoryPage/>),
     (<MyStatsPage/>),
     (<SettingsPage/>)
