@@ -41,3 +41,8 @@ class Exercise(models.Model):
     name = models.CharField(max_length=40)
     desc = models.TextField(blank=True, null=True)
     instructions = ArrayField(models.CharField(max_length=100),default=list,null=True, blank=True)
+
+class Workout(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    name = models.CharField(max_length=40)
+    exercises = ArrayField(models.JSONField(default=dict),default=list)

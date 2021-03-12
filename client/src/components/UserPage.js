@@ -57,9 +57,23 @@ export default function UserPage(props) {
     workoutHistory:{
 
     },
-    workouts:{
+    workouts:[
+      {
+        id:0,
+        user:1,
+        name:'morning workout',
+        exercises:[
+          {
+            exerciseId:11,
+            reps:10,
+            sets:3,
+            time:null,
 
-    },
+          },
+          {cooldown:30}
+        ]
+      }
+    ],
     exercises:[
     ]
   })
@@ -80,6 +94,9 @@ export default function UserPage(props) {
       exercises:[...response.data]
     }))
   }
+  const fetchWorkouts = async () =>{
+    alert('fucntion not complete')
+  }
   
   React.useEffect(()=>{
     switch(apiLoader){
@@ -89,13 +106,21 @@ export default function UserPage(props) {
       case 'exercises':
         fetchExercises()
         break;
+      case 'workouts':
+        fetchWorkouts()
+        break;
     }
   },[apiLoader])
 
   const pages = [
     (<DashboardPage/>),
     (<RoutinePage/>),
-    (<MyWorkoutsPage/>),
+    (<MyWorkoutsPage
+      data={data.workouts}
+      setData={setData}
+      loadExercises={()=>setApiLoader('exercises')}
+      loadWorkouts={()=>setApiLoader('workouts')}
+    />),
     (<MyGoalsPage 
       data={data.goals} 
       setData={setData} 
