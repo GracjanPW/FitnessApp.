@@ -1,16 +1,8 @@
 from django.shortcuts import render
-from .models import (
-    MyUser,
-    UserGoals,
-    Exercise
-)
+from .models import *
 import jwt
 from django.conf import settings
-from .serializers import (
-    UserSerializer,
-    UserGoalsSerializer,
-    ExerciseSerializer,
-)
+from .serializers import *
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -65,6 +57,7 @@ class ExerciseView(APIView):
             exercise.save()
             return Response(serializer.data,status=status.HTTP_200_OK)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
     def get(self,request):
         queryset = Exercise.objects.filter(user=request.user)
         serializer = ExerciseSerializer(queryset, many=True)
@@ -104,3 +97,20 @@ class ExerciseView(APIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class WorkoutView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self,request):
+        serializer = WorkoutSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            workout = serializer.save()
+            workout.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self,request):
+        queryset = Workout.objects.filter(user=request.user)
+        serializer = WorkoutSerializer(queryset, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)

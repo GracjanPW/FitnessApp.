@@ -58,21 +58,6 @@ export default function UserPage(props) {
 
     },
     workouts:[
-      {
-        id:0,
-        user:1,
-        name:'morning workout',
-        exercises:[
-          {
-            exerciseId:11,
-            reps:10,
-            sets:3,
-            time:null,
-
-          },
-          {cooldown:30}
-        ]
-      }
     ],
     exercises:[
     ]
@@ -88,14 +73,17 @@ export default function UserPage(props) {
   }
   const fetchExercises = async ()=>{
     const response = await apiInstance.get('/user/exercises/')
-    console.log(response.data)
     setData((prevState)=>({
       ...prevState,
       exercises:[...response.data]
     }))
   }
   const fetchWorkouts = async () =>{
-    alert('fucntion not complete')
+    const response = await apiInstance.get('./user/workouts/')
+    setData(prevState=> ({
+      ...prevState,
+      workouts:[...response.data]
+    }))
   }
   
   React.useEffect(()=>{
@@ -116,7 +104,10 @@ export default function UserPage(props) {
     (<DashboardPage/>),
     (<RoutinePage/>),
     (<MyWorkoutsPage
-      data={data.workouts}
+      data={{
+        workouts:data.workouts,
+        exercises:data.exercises
+      }}
       setData={setData}
       loadExercises={()=>setApiLoader('exercises')}
       loadWorkouts={()=>setApiLoader('workouts')}
@@ -138,13 +129,14 @@ export default function UserPage(props) {
   return (
     <div className={classes.root}>
       <Sidebar urls={urls}/>
-      {
+       {
         urls.map((url,i)=>(
           <Route path={`/user/${url}`}>
-            {pages[i]}
+            <div key={i}>{pages[i]}</div>
           </Route>
         ))
-      }
+      } 
+      
       
 
     </div>
